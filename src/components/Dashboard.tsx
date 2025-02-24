@@ -1187,30 +1187,35 @@ const WelcomeSection = styled.div`
 `;
 
 const RoomsSection = styled.div`
-  margin-bottom: 2rem;
+  margin: 0 -1rem 2rem;
   overflow: hidden;
+  padding: 0.5rem 0;
 
   h2 {
     font-size: 1.25rem;
-    margin: 0 0 1rem;
-    color: var(--text-primary);
+    margin: 0 1rem 1rem;
+    color: var(--text-color);
+  }
+
+  @media (min-width: 768px) {
+    margin: 0 0 2rem;
   }
 `;
 
 const RoomsScroll = styled(motion.div)`
   display: flex;
-  gap: 1rem;
-  margin: 0 -1rem;
+  gap: 1.25rem;
   padding: 0.5rem 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   position: relative;
-  touch-action: pan-x;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  margin: 0;
+  scroll-padding: 1rem;
 
   &:active {
     cursor: grabbing;
@@ -1220,39 +1225,46 @@ const RoomsScroll = styled(motion.div)`
     display: none;
   }
 
+  @media (min-width: 768px) {
+    gap: 1.5rem;
+    padding: 0.75rem 1rem;
+    scroll-padding: 1.5rem;
+
   &::after {
     content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 50px;
-    background: linear-gradient(to right,
-      transparent 0%,
-      var(--bg-color-dark) 100%
-    );
-    pointer-events: none;
-    z-index: 2;
+      flex: 0 0 1rem;
+    }
   }
 `;
 
 const RoomCard = styled(motion.div)<{ $image: string; $active: boolean }>`
-  min-width: 280px;
-  aspect-ratio: 16/9;
+  flex: 0 0 280px;
+  height: 180px;
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.25rem;
   position: relative;
   cursor: pointer;
   overflow: hidden;
   scroll-snap-align: start;
-  touch-action: pan-y;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
               url(${props => props.$image});
   background-size: cover;
   background-position: center;
   box-shadow: ${props => props.$active ?
-    'inset 3px 3px 6px rgba(0, 0, 0, 0.3), 0 3px 6px rgba(255, 99, 99, 0.2)' :
-    '5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.05)'};
+    '0 8px 16px rgba(0, 0, 0, 0.2), inset 0 0 0 2px var(--primary-red)' :
+    '0 4px 8px rgba(0, 0, 0, 0.15)'};
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${props => props.$active ?
+      'linear-gradient(rgba(255, 59, 48, 0.1), rgba(255, 59, 48, 0.05))' :
+      'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1))'};
+    opacity: ${props => props.$active ? 1 : 0};
+    transition: opacity 0.3s ease;
+  }
 
   .room-info {
         display: flex;
@@ -1261,11 +1273,14 @@ const RoomCard = styled(motion.div)<{ $image: string; $active: boolean }>`
     color: white;
     font-size: 1.125rem;
         font-weight: 500;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         
-        svg {
+    svg {
       font-size: 1.5rem;
           color: var(--primary-red);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
   }
 
@@ -1273,18 +1288,65 @@ const RoomCard = styled(motion.div)<{ $image: string; $active: boolean }>`
       display: flex;
       align-items: center;
     gap: 0.5rem;
-    color: ${props => props.$active ? 'var(--primary-red)' : 'rgba(255, 255, 255, 0.8)'};
+    color: ${props => props.$active ? 'var(--primary-red)' : 'rgba(255, 255, 255, 0.9)'};
     font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     svg {
       font-size: 1.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
   }
 
   .room-status {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+  position: relative;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (min-width: 768px) {
+    flex: 0 0 320px;
+    height: 200px;
+    padding: 1.5rem;
+
+  &:hover {
+    transform: translateY(-4px);
+      box-shadow: ${props => props.$active ?
+        '0 12px 24px rgba(0, 0, 0, 0.25), inset 0 0 0 2px var(--primary-red)' :
+        '0 8px 16px rgba(0, 0, 0, 0.2)'};
+    }
+  }
+
+  @media (max-width: 480px) {
+    flex: 0 0 260px;
+    height: 160px;
+    padding: 1rem;
+
+    .room-info {
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      
+      svg {
+        font-size: 1.25rem;
+      }
+    }
+
+    .room-temp {
+    font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+
+      svg {
+        font-size: 1.25rem;
+      }
+    }
+
+    .room-status {
+      font-size: 0.75rem;
+    }
   }
 `;
 
@@ -1328,7 +1390,7 @@ const StyledDeviceCard = styled(motion.div)<{ $active: boolean }>`
   }
 
   .device-header {
-    display: flex;
+  display: flex;
     align-items: flex-start;
     gap: 0.75rem;
     margin-bottom: 1rem;
@@ -1474,30 +1536,40 @@ const Dashboard: React.FC = () => {
 
       <RoomsSection>
         <h2>Rooms</h2>
-        <RoomsScroll>
+        <RoomsScroll
+          drag="x"
+          dragConstraints={{ left: -1000, right: 0 }}
+          dragElastic={0.2}
+          dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+        >
           {roomDevices.map(room => (
-            <RoomCard 
-              key={room.id}
+          <RoomCard 
+            key={room.id}
               $image={room.image}
-              $active={selectedRoom === room.id}
+            $active={selectedRoom === room.id}
               onClick={() => setSelectedRoom(room.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
             >
               <div className="room-info">
                 <Room />
                 {room.name}
-              </div>
+                </div>
               <div>
                 <div className="room-temp">
                   <DeviceThermostat />
                   {room.temperature}
-                </div>
-                <div className="room-status">{room.activeDevices} of {room.devices} devices active</div>
               </div>
-            </RoomCard>
-          ))}
-        </RoomsScroll>
+                <div className="room-status">
+                  {room.activeDevices} of {room.devices} devices active
+              </div>
+            </div>
+          </RoomCard>
+        ))}
+      </RoomsScroll>
       </RoomsSection>
 
       <DevicesSection>
