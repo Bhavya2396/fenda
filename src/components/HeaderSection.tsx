@@ -49,6 +49,7 @@ const GreetingSection = styled.div`
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2),
                 -3px -3px 6px rgba(255, 255, 255, 0.05);
     color: var(--primary-red);
+    flex-shrink: 0;
 
     svg {
       font-size: 24px;
@@ -57,6 +58,7 @@ const GreetingSection = styled.div`
 
   .content {
     flex: 1;
+    min-width: 0;
     
     h1 {
       font-size: 1.25rem;
@@ -81,6 +83,14 @@ const GreetingSection = styled.div`
       gap: 0.75rem;
       color: rgba(255, 255, 255, 0.6);
       font-size: 0.875rem;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .weather-item {
         display: flex;
@@ -91,6 +101,7 @@ const GreetingSection = styled.div`
         background: var(--bg-color-dark);
         box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
                     inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+        flex-shrink: 0;
 
         svg {
           font-size: 16px;
@@ -108,6 +119,21 @@ const GreetingSection = styled.div`
           font-size: 0.75rem;
         }
       }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .weather-icon {
+      width: 40px;
+      height: 40px;
+
+      svg {
+        font-size: 20px;
+      }
+    }
+
+    .content h1 {
+      font-size: 1.125rem;
     }
   }
 `;

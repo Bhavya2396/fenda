@@ -1207,6 +1207,14 @@ const RoomsScroll = styled(motion.div)`
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   position: relative;
+  touch-action: pan-x;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -1237,6 +1245,7 @@ const RoomCard = styled(motion.div)<{ $image: string; $active: boolean }>`
   cursor: pointer;
   overflow: hidden;
   scroll-snap-align: start;
+  touch-action: pan-y;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
               url(${props => props.$image});
   background-size: cover;
@@ -1465,34 +1474,30 @@ const Dashboard: React.FC = () => {
 
       <RoomsSection>
         <h2>Rooms</h2>
-        <RoomsScroll
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.2}
-        >
+        <RoomsScroll>
           {roomDevices.map(room => (
-          <RoomCard 
-            key={room.id}
+            <RoomCard 
+              key={room.id}
               $image={room.image}
-            $active={selectedRoom === room.id}
+              $active={selectedRoom === room.id}
               onClick={() => setSelectedRoom(room.id)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <div className="room-info">
                 <Room />
                 {room.name}
-                </div>
+              </div>
               <div>
                 <div className="room-temp">
                   <DeviceThermostat />
                   {room.temperature}
-              </div>
+                </div>
                 <div className="room-status">{room.activeDevices} of {room.devices} devices active</div>
-            </div>
-          </RoomCard>
-        ))}
-      </RoomsScroll>
+              </div>
+            </RoomCard>
+          ))}
+        </RoomsScroll>
       </RoomsSection>
 
       <DevicesSection>
