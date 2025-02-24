@@ -1202,33 +1202,38 @@ const RoomsSection = styled.div`
 
 const RoomsScroll = styled(motion.div)`
   display: flex;
-  gap: 1.25rem;
-  padding: 0.5rem;
-  margin: 0 -0.5rem;
   overflow-x: auto;
+  gap: 1.25rem;
+  margin: 0 -1rem;
+  padding: 0.5rem 1rem;
   scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  -ms-overflow-style: none;
-  cursor: grab;
+  touch-action: pan-x;
   
   &::-webkit-scrollbar {
     display: none;
   }
 
-  &:active {
-    cursor: grabbing;
+  @media (min-width: 768px) {
+    margin: 0;
+    padding: 0.5rem 0;
   }
 `;
 
 const RoomCard = styled(motion.div)<{ $active: boolean; $image: string }>`
-  position: relative;
-  width: 300px;
-  height: 180px;
+  min-width: 260px;
+  height: 160px;
   flex-shrink: 0;
+  scroll-snap-align: start;
+  position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  scroll-snap-align: start;
   cursor: pointer;
+  box-shadow: ${props => props.$active ?
+    '0 8px 16px rgba(255, 59, 48, 0.2)' :
+    '0 8px 16px rgba(0, 0, 0, 0.2)'};
+  transition: all 0.3s ease;
   
   &::before {
     content: '';
@@ -1275,17 +1280,18 @@ const RoomCard = styled(motion.div)<{ $active: boolean; $image: string }>`
     color: white;
     
     .room-name {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
     }
 
     .room-info {
       display: flex;
       align-items: center;
       gap: 1rem;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
       .info-item {
@@ -1306,8 +1312,8 @@ const RoomCard = styled(motion.div)<{ $active: boolean; $image: string }>`
 
     .status-bar {
       position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
+      top: 1rem;
+      right: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -1326,35 +1332,38 @@ const RoomCard = styled(motion.div)<{ $active: boolean; $image: string }>`
   }
 
   &:hover {
+    transform: translateY(-4px);
+    box-shadow: ${props => props.$active ?
+      '0 12px 24px rgba(255, 59, 48, 0.25)' :
+      '0 12px 24px rgba(0, 0, 0, 0.25)'};
+
     &::after {
       transform: scale(1.05);
     }
 
-    .content {
-      .room-name {
-        transform: translateY(-2px);
-      }
+    .content .room-name {
+      transform: translateY(-2px);
     }
   }
 
-  @media (max-width: 480px) {
-    width: 260px;
-    height: 160px;
+  @media (min-width: 768px) {
+    min-width: 300px;
+    height: 180px;
 
     .content {
-      padding: 1rem;
+      padding: 1.5rem;
 
       .room-name {
-        font-size: 1.125rem;
+        font-size: 1.25rem;
       }
 
       .room-info {
-        font-size: 0.8125rem;
+        font-size: 0.875rem;
       }
 
       .status-bar {
-        top: 1rem;
-        right: 1rem;
+        top: 1.25rem;
+        right: 1.25rem;
       }
     }
   }
