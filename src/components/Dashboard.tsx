@@ -122,7 +122,7 @@ const rooms: RoomData[] = [
 
 const devices = [
   {
-    id: 'ac',
+    id: 'ac1',
     name: 'Air Conditioner',
     icon: <AcUnit />,
     image: '/pngimg.com - air_conditioner_PNG73.png',
@@ -131,16 +131,7 @@ const devices = [
     roomId: 'living'
   },
   {
-    id: 'purifier',
-    name: 'Air Purifier',
-    icon: <Air />,
-    image: '/49364-1-air-purifier-download-hd-png.webp',
-    status: 'AQI 45 • Good',
-    path: '/device/purifier',
-    roomId: 'living'
-  },
-  {
-    id: 'tv',
+    id: 'tv1',
     name: 'Smart TV',
     icon: <Tv />,
     image: '/pngtree-led-tv-television-screen-vector-png-image_6673700.png',
@@ -149,7 +140,7 @@ const devices = [
     roomId: 'living'
   },
   {
-    id: 'music',
+    id: 'music1',
     name: 'Music System',
     icon: <VolumeUp />,
     image: '/pngtree-creative-ways-to-integrate-smart-speakers-into-your-home-png-image_13396551.png',
@@ -158,13 +149,85 @@ const devices = [
     roomId: 'living'
   },
   {
-    id: 'camera',
+    id: 'ac2',
+    name: 'Air Conditioner',
+    icon: <AcUnit />,
+    image: '/pngimg.com - air_conditioner_PNG73.png',
+    status: '22°C • Cooling',
+    path: '/device/ac',
+    roomId: 'bedroom'
+  },
+  {
+    id: 'purifier1',
+    name: 'Air Purifier',
+    icon: <Air />,
+    image: '/49364-1-air-purifier-download-hd-png.webp',
+    status: 'AQI 45 • Good',
+    path: '/device/purifier',
+    roomId: 'bedroom'
+  },
+  {
+    id: 'tv2',
+    name: 'Smart TV',
+    icon: <Tv />,
+    image: '/pngtree-led-tv-television-screen-vector-png-image_6673700.png',
+    status: 'YouTube Playing',
+    path: '/device/tv',
+    roomId: 'bedroom'
+  },
+  {
+    id: 'ac3',
+    name: 'Air Conditioner',
+    icon: <AcUnit />,
+    image: '/pngimg.com - air_conditioner_PNG73.png',
+    status: '23°C • Cooling',
+    path: '/device/ac',
+    roomId: 'kitchen'
+  },
+  {
+    id: 'purifier2',
+    name: 'Air Purifier',
+    icon: <Air />,
+    image: '/49364-1-air-purifier-download-hd-png.webp',
+    status: 'AQI 50 • Moderate',
+    path: '/device/purifier',
+    roomId: 'kitchen'
+  },
+  {
+    id: 'camera1',
     name: 'Security Camera',
     icon: <Videocam />,
     image: '/smart cctv.avif',
     status: 'Recording • Motion Detected',
     path: '/device/camera',
-    roomId: 'living'
+    roomId: 'kitchen'
+  },
+  {
+    id: 'ac4',
+    name: 'Air Conditioner',
+    icon: <AcUnit />,
+    image: '/pngimg.com - air_conditioner_PNG73.png',
+    status: '23°C • Cooling',
+    path: '/device/ac',
+    roomId: 'office'
+  },
+  {
+    id: 'purifier3',
+    name: 'Air Purifier',
+    icon: <Air />,
+    image: '/49364-1-air-purifier-download-hd-png.webp',
+    status: 'AQI 40 • Good',
+    path: '/device/purifier',
+    roomId: 'office'
+  },
+  {
+    id: 'camera2',
+    name: 'Security Camera',
+    icon: <Videocam />,
+    image: '/smart cctv.avif',
+    status: 'Recording • All Clear',
+    path: '/device/camera',
+    roomId: 'office'
   }
 ];
 
