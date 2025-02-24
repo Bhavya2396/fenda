@@ -15,14 +15,27 @@ import {
 } from '@mui/icons-material';
 
 const HeaderContainer = styled(motion.div)`
-  background: var(--bg-color-dark);
+  background: var(--glass-bg);
+  border: var(--glass-border);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   margin-bottom: 1.5rem;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2),
-              -5px -5px 10px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
   max-width: 100%;
   overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    z-index: 0;
+  }
 
   @media (min-width: 768px) {
     padding: 1.5rem;
@@ -33,6 +46,8 @@ const TopSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const GreetingSection = styled.div`
@@ -48,14 +63,16 @@ const GreetingSection = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-sm);
-    background: var(--bg-color-dark);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2),
-                -3px -3px 6px rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    backdrop-filter: blur(8px);
     color: var(--primary-red);
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     svg {
       font-size: 28px;
+      filter: drop-shadow(0 2px 4px rgba(255, 59, 48, 0.2));
     }
   }
 
@@ -67,16 +84,18 @@ const GreetingSection = styled.div`
       font-size: 1.5rem;
       font-weight: 600;
       color: rgba(255, 255, 255, 0.95);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
       .notification-dot {
         width: 6px;
         height: 6px;
         border-radius: 50%;
         background: var(--primary-red);
+        box-shadow: 0 0 8px var(--primary-red);
       }
     }
 
@@ -98,25 +117,28 @@ const GreetingSection = styled.div`
       .weather-item {
         display: flex;
         align-items: center;
-        gap: 0.375rem;
-        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+        padding: 0.625rem 1rem;
         border-radius: var(--radius-sm);
-        background: var(--bg-color-dark);
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
-                    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+        background: var(--glass-bg);
+        border: var(--glass-border);
+        backdrop-filter: blur(8px);
         flex-shrink: 0;
         cursor: pointer;
         transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
         svg {
           font-size: 18px;
           color: var(--primary-red-soft);
+          filter: drop-shadow(0 2px 4px rgba(255, 59, 48, 0.2));
         }
 
         .value {
           color: rgba(255, 255, 255, 0.95);
           font-weight: 500;
           font-size: 0.9375rem;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .unit {
@@ -126,7 +148,8 @@ const GreetingSection = styled.div`
 
         &:hover {
           transform: translateY(-2px);
-          background: var(--bg-color-lighter);
+          background: var(--glass-bg-hover);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
       }
     }
@@ -172,18 +195,32 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
   background: var(--glass-bg);
   border: var(--glass-border);
   border-radius: var(--radius-lg);
-  padding: 1.125rem;
+  padding: 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   cursor: ${props => props.$active !== undefined ? 'pointer' : 'default'};
   transition: all var(--transition-normal);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    z-index: 0;
+  }
 
   &:hover {
     transform: ${props => props.$active !== undefined ? 'translateY(-3px)' : 'none'};
-    box-shadow: ${props => props.$active !== undefined ? '0 6px 8px rgba(0, 0, 0, 0.15)' : '0 4px 6px rgba(0, 0, 0, 0.1)'};
+    box-shadow: ${props => props.$active !== undefined ? '0 6px 16px rgba(0, 0, 0, 0.15)' : '0 4px 12px rgba(0, 0, 0, 0.1)'};
+    background: var(--glass-bg-hover);
   }
 
   &:active {
@@ -191,8 +228,8 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
   }
 
   .icon {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: ${props => props.$active ? 'var(--primary-gradient)' : 'var(--overlay-light)'};
     display: flex;
@@ -200,7 +237,14 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
     justify-content: center;
     color: ${props => props.$active ? 'white' : 'var(--text-color-muted)'};
     transition: all var(--transition-normal);
-    font-size: 1.375rem;
+    font-size: 1.5rem;
+    box-shadow: ${props => props.$active ? '0 4px 12px rgba(255, 59, 48, 0.3)' : '0 4px 12px rgba(0, 0, 0, 0.1)'};
+    position: relative;
+    z-index: 1;
+
+    svg {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
 
     @media (max-width: 480px) {
       width: 40px;
@@ -212,6 +256,8 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
   .text {
     flex: 1;
     min-width: 0;
+    position: relative;
+    z-index: 1;
 
     .value {
       font-size: 1.125rem;
@@ -222,6 +268,7 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     .label {
@@ -245,13 +292,13 @@ const StatusItem = styled(motion.div)<{ $active?: boolean }>`
   @media (min-width: 768px) {
     flex-direction: column;
     text-align: center;
-    padding: 1.25rem;
+    padding: 1.5rem;
     gap: 1rem;
 
     .icon {
-      width: 48px;
-      height: 48px;
-      font-size: 1.5rem;
+      width: 52px;
+      height: 52px;
+      font-size: 1.625rem;
     }
 
     .text {

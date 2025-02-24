@@ -14,7 +14,7 @@ import {
   NightsStay as NightsStayIcon, Refresh, FullscreenOutlined, NotificationsActive,
   Favorite, Timer, CloudQueue,
   LightbulbOutlined, Kitchen, SingleBed, WeekendOutlined, 
-  Computer, LocalLaundryService, VolumeUp
+  Computer, LocalLaundryService, VolumeUp, PowerSettingsNew
 } from '@mui/icons-material';
 import Logo from './Logo';
 import DeviceCard from './DeviceCard';
@@ -1187,172 +1187,182 @@ const WelcomeSection = styled.div`
 `;
 
 const RoomsSection = styled.div`
-  margin: 0 -1rem 2rem;
-  overflow: hidden;
-  padding: 0.5rem 0;
+  margin: 2rem 0;
+  position: relative;
 
   h2 {
-    font-size: 1.25rem;
-    margin: 0 1rem 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: var(--text-color);
-  }
-
-  @media (min-width: 768px) {
-    margin: 0 0 2rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const RoomsScroll = styled(motion.div)`
   display: flex;
   gap: 1.25rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
+  margin: 0 -0.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  position: relative;
+  -ms-overflow-style: none;
   cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  margin: 0;
-  scroll-padding: 1rem;
-
-  &:active {
-    cursor: grabbing;
-  }
-
+  
   &::-webkit-scrollbar {
     display: none;
   }
 
-  @media (min-width: 768px) {
-    gap: 1.5rem;
-    padding: 0.75rem 1rem;
-    scroll-padding: 1.5rem;
-
-  &::after {
-    content: '';
-      flex: 0 0 1rem;
-    }
+  &:active {
+    cursor: grabbing;
   }
 `;
 
-const RoomCard = styled(motion.div)<{ $image: string; $active: boolean }>`
-  flex: 0 0 280px;
-  height: 180px;
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
+const RoomCard = styled(motion.div)<{ $active: boolean; $image: string }>`
   position: relative;
-  cursor: pointer;
+  width: 300px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   scroll-snap-align: start;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
-              url(${props => props.$image});
-  background-size: cover;
-  background-position: center;
-  box-shadow: ${props => props.$active ?
-    '0 8px 16px rgba(0, 0, 0, 0.2), inset 0 0 0 2px var(--primary-red)' :
-    '0 4px 8px rgba(0, 0, 0, 0.15)'};
-  transition: all 0.3s ease;
-
+  cursor: pointer;
+  
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: ${props => props.$active ?
-      'linear-gradient(rgba(255, 59, 48, 0.1), rgba(255, 59, 48, 0.05))' :
-      'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1))'};
-    opacity: ${props => props.$active ? 1 : 0};
-    transition: opacity 0.3s ease;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 1;
+    transition: all 0.3s ease;
   }
 
-  .room-info {
-        display: flex;
-        align-items: center;
-    gap: 0.75rem;
-    color: white;
-    font-size: 1.125rem;
-        font-weight: 500;
-    margin-bottom: 1.5rem;
-    position: relative;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        
-    svg {
-      font-size: 1.5rem;
-          color: var(--primary-red);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url(${props => props.$image});
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s ease;
+    z-index: 0;
+  }
+
+  ${props => props.$active && `
+    &::before {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 59, 48, 0.2) 0%,
+        rgba(255, 59, 48, 0.4) 100%
+      );
     }
-  }
+  `}
 
-  .room-temp {
+  .content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: white;
+    
+    .room-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .room-info {
       display: flex;
       align-items: center;
-    gap: 0.5rem;
-    color: ${props => props.$active ? 'var(--primary-red)' : 'rgba(255, 255, 255, 0.9)'};
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-    position: relative;
-    font-weight: 500;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      gap: 1rem;
+      font-size: 0.875rem;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
-    svg {
-      font-size: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+
+        svg {
+          font-size: 1rem;
+          opacity: 0.9;
+        }
+
+        .value {
+          font-weight: 500;
+        }
+      }
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 500;
+
+      svg {
+        font-size: 1rem;
+        color: ${props => props.$active ? 'var(--primary-red)' : 'white'};
+      }
     }
   }
 
-  .room-status {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.8);
-  position: relative;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (min-width: 768px) {
-    flex: 0 0 320px;
-    height: 200px;
-    padding: 1.5rem;
-
   &:hover {
-    transform: translateY(-4px);
-      box-shadow: ${props => props.$active ?
-        '0 12px 24px rgba(0, 0, 0, 0.25), inset 0 0 0 2px var(--primary-red)' :
-        '0 8px 16px rgba(0, 0, 0, 0.2)'};
+    &::after {
+      transform: scale(1.05);
+    }
+
+    .content {
+      .room-name {
+        transform: translateY(-2px);
+      }
     }
   }
 
   @media (max-width: 480px) {
-    flex: 0 0 260px;
+    width: 260px;
     height: 160px;
-    padding: 1rem;
 
-    .room-info {
-      font-size: 1rem;
-      margin-bottom: 1.25rem;
-      
-      svg {
-        font-size: 1.25rem;
+    .content {
+      padding: 1rem;
+
+      .room-name {
+        font-size: 1.125rem;
       }
-    }
 
-    .room-temp {
-    font-size: 1.125rem;
-      margin-bottom: 0.5rem;
-
-      svg {
-        font-size: 1.25rem;
+      .room-info {
+        font-size: 0.8125rem;
       }
-    }
 
-    .room-status {
-      font-size: 0.75rem;
+      .status-bar {
+        top: 1rem;
+        right: 1rem;
+      }
     }
   }
 `;
 
 const DevicesSection = styled.div`
   h2 {
-        font-size: 1.25rem;
+    font-size: 1.25rem;
     margin: 0 0 1rem;
     color: var(--text-primary);
   }
@@ -1390,22 +1400,22 @@ const StyledDeviceCard = styled(motion.div)<{ $active: boolean }>`
   }
 
   .device-header {
-  display: flex;
+    display: flex;
     align-items: flex-start;
     gap: 0.75rem;
     margin-bottom: 1rem;
 
     .icon {
       min-width: 40px;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-lg);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
       background: ${props => props.$active ? 
         'var(--primary-gradient)' : 
         'var(--bg-color-dark)'};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: ${props => props.$active ? 'white' : 'var(--text-secondary)'};
       box-shadow: ${props => props.$active ?
         'none' :
@@ -1425,7 +1435,7 @@ const StyledDeviceCard = styled(motion.div)<{ $active: boolean }>`
 
       .status {
         font-size: 0.75rem;
-  color: var(--text-secondary);
+        color: var(--text-secondary);
       }
     }
   }
@@ -1488,6 +1498,8 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState('living');
   const [activeDevices, setActiveDevices] = useState<string[]>(['ac', 'tv']);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Filter devices by room and calculate active devices per room
   const roomDevices = useMemo(() => {
@@ -1530,6 +1542,15 @@ const Dashboard: React.FC = () => {
     );
   };
 
+  const handleDragStart = () => setIsDragging(true);
+  const handleDragEnd = () => setIsDragging(false);
+
+  const handleRoomClick = (roomId: string) => {
+    if (!isDragging) {
+      setSelectedRoom(roomId);
+    }
+  };
+
   return (
     <DashboardContainer>
       <HeaderSection />
@@ -1537,39 +1558,44 @@ const Dashboard: React.FC = () => {
       <RoomsSection>
         <h2>Rooms</h2>
         <RoomsScroll
+          ref={scrollRef}
           drag="x"
-          dragConstraints={{ left: -1000, right: 0 }}
           dragElastic={0.2}
-          dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+          dragConstraints={scrollRef}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
-          {roomDevices.map(room => (
-          <RoomCard 
-            key={room.id}
+          {roomDevices.map((room, index) => (
+            <RoomCard
+              key={room.id}
+              $active={selectedRoom === room.id}
               $image={room.image}
-            $active={selectedRoom === room.id}
-              onClick={() => setSelectedRoom(room.id)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
+              onClick={() => !isDragging && handleRoomClick(room.id)}
+              whileHover={{ y: -4 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <div className="room-info">
-                <Room />
-                {room.name}
+              <div className="content">
+                <div className="status-bar">
+                  <PowerSettingsNew />
+                  {room.activeDevices} / {room.devices} Active
                 </div>
-              <div>
-                <div className="room-temp">
-                  <DeviceThermostat />
-                  {room.temperature}
+                <div className="room-name">{room.name}</div>
+                <div className="room-info">
+                  <div className="info-item">
+                    <DeviceThermostat />
+                    <span className="value">{room.temperature}</span>
+                  </div>
+                  <div className="info-item">
+                    <BatteryChargingFull />
+                    <span className="value">{room.power}</span>
+                  </div>
+                </div>
               </div>
-                <div className="room-status">
-                  {room.activeDevices} of {room.devices} devices active
-              </div>
-            </div>
-          </RoomCard>
-        ))}
-      </RoomsScroll>
+            </RoomCard>
+          ))}
+        </RoomsScroll>
       </RoomsSection>
 
       <DevicesSection>
@@ -1592,11 +1618,11 @@ const Dashboard: React.FC = () => {
                   }}
                 >
                   {device.icon}
-              </div>
+                </div>
                 <div className="info">
                   <h3>{device.name}</h3>
                   <p>{activeDevices.includes(device.id) ? device.status : 'Off'}</p>
-              </div>
+                </div>
               </div>
               <div className="device-image">
                 <img src={device.image} alt={device.name} />
